@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="WPF_Challenge.MVVM.Views.AuthView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:WPF_Challenge.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    helpers:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <helpers:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <helpers:BoolToVisibilityConverterInvert x:Key="BoolToVisibilityConverterInvert" />
+    </UserControl.Resources>
+
+    <Border
+        Width="365"
+        Height="545"
+        Background="#FFFFFF"
+        Style="{StaticResource BorderStyle}">
+
+        <Grid Margin="20,40">
+            <Grid Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverterInvert}}">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Text="Авторизация" />
+
+                    <TextBlock
+                        Margin="0,30,0,10"
+                        Style="{StaticResource AuthTextBlock}"
+                        Text="Введите логин:" />
+
+                    <TextBox Style="{StaticResource RoundTextBox}" Text="{Binding Username}" />
+
+                    <TextBlock
+                        Margin="0,30,0,10"
+                        Style="{StaticResource AuthTextBlock}"
+                        Text="Введите пароль:" />
+
+                    <PasswordBox helpers:PasswordBoxBehavior.Password="{Binding Password, Mode=TwoWay}" Style="{StaticResource RoundPasswordBox}" />
+
+                    <Button
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding LoginCommand}"
+                        Content="Войти"
+                        Opacity="{Binding CanLogin, Converter={StaticResource BoolToOpacityConverter}}"
+                        Style="{StaticResource RoundAuthButton}" />
+                </StackPanel>
+
+                <Button
+                    Width="200"
+                    Height="40"
+                    Margin="0,0,0,5"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding OpenRegistrationWindowCommand}"
+                    Content="Зарегистрироваться"
+                    Style="{StaticResource RoundButton}" />
+            </Grid>
+
+            <Button
+                Width="200"
+                Height="40"
+                Margin="0,0,0,5"
+                VerticalAlignment="Bottom"
+                Command="{Binding LogoutCommand}"
+                Content="Выход"
+                Style="{StaticResource RoundButton}"
+                Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}}" />
+        </Grid>
+    </Border>
+
+</UserControl>

@@ -1,0 +1,111 @@
+﻿<Window
+    x:Class="WPF_Challenge.MVVM.Views.RegistrationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:WPF_Challenge.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="RegistrationView"
+    Width="400"
+    Height="750"
+    helpers:ViewModelLocator.AutoWireViewModel="True"
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowState="Normal"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <helpers:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+    </Window.Resources>
+
+    <Border
+        Background="#FFFFFF"
+        BorderBrush="LightGray"
+        BorderThickness="1"
+        CornerRadius="20">
+
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDown">
+                <i:InvokeCommandAction Command="{Binding DragMoveCommand}" PassEventArgsToCommand="True" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Margin="0,0,16,0">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,5,0"
+                        Content="{DynamicResource Minimize}"
+                        Style="{DynamicResource WindowButtonStyle}">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding MinimizeCommand}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <Button
+                        Click="CloseClick"
+                        Content="{DynamicResource Close}"
+                        Style="{StaticResource WindowButtonStyle}"
+                        Tag="IsCloseButton" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <StackPanel Margin="15">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Text="Регистрация" />
+
+                    <TextBlock Style="{StaticResource AuthTextBlock}" Text="Введите логин:" />
+
+                    <TextBox Style="{StaticResource RoundTextBox}" Text="{Binding Username}" />
+
+                    <TextBlock Style="{StaticResource AuthTextBlock}" Text="Введите имя:" />
+
+                    <TextBox Style="{StaticResource RoundTextBox}" Text="{Binding FirstName}" />
+
+                    <TextBlock Style="{StaticResource AuthTextBlock}" Text="Введите фамилию:" />
+
+                    <TextBox Style="{StaticResource RoundTextBox}" Text="{Binding LastName}" />
+
+                    <TextBlock Style="{StaticResource AuthTextBlock}" Text="Введите email:" />
+
+                    <TextBox Style="{StaticResource RoundTextBox}" Text="{Binding Email}" />
+
+                    <TextBlock Style="{StaticResource AuthTextBlock}" Text="Введите номер телефона:" />
+
+                    <TextBox Style="{StaticResource RoundTextBox}" Text="{Binding Phone}" />
+
+                    <TextBlock Style="{StaticResource AuthTextBlock}" Text="Введите пароль:" />
+
+                    <PasswordBox helpers:PasswordBoxBehavior.Password="{Binding Password, Mode=TwoWay}" Style="{StaticResource RoundPasswordBox}" />
+
+                    <TextBlock Style="{StaticResource AuthTextBlock}" Text="Повторите пароль:" />
+
+                    <PasswordBox helpers:PasswordBoxBehavior.Password="{Binding ConfirmPassword, Mode=TwoWay}" Style="{StaticResource RoundPasswordBox}" />
+
+                    <Button
+                        Width="200"
+                        Height="40"
+                        Margin="0,30,0,10"
+                        Command="{Binding RegisterCommand}"
+                        Content="Зарегистрироваться"
+                        Opacity="{Binding CanRegister, Converter={StaticResource BoolToOpacityConverter}}"
+                        Style="{StaticResource RoundButton}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

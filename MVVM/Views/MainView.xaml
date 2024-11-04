@@ -1,0 +1,124 @@
+﻿<Window
+    x:Class="WPF_Challenge.MVVM.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainView"
+    Width="1020"
+    Height="720"
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Normal"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Border
+        Background="#FFFFFF"
+        BorderBrush="LightGray"
+        BorderThickness="1"
+        CornerRadius="20">
+
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDown">
+                <i:InvokeCommandAction Command="{Binding DragMoveCommand}" PassEventArgsToCommand="True" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" VerticalAlignment="Top">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <TextBlock
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Foreground="#18191B"
+                            Text="WPF_Challenge" />
+
+                        <TextBlock
+                            Margin="6,3,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="#848D95"
+                            Text="v1.0" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Column="1" VerticalAlignment="Top">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,5,0"
+                            Content="{DynamicResource Minimize}"
+                            Style="{DynamicResource WindowButtonStyle}">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding MinimizeCommand}" PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                        <Button
+                            Content="{DynamicResource Close}"
+                            Style="{StaticResource WindowButtonStyle}"
+                            Tag="IsCloseButton">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding CloseCommand}" PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <StackPanel
+                    Margin="0,5,150,5"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+
+                    <Button
+                        Command="{Binding NavigateToUserViewCommand}"
+                        Content="Данные пользователя"
+                        Style="{StaticResource RoundButton}" />
+
+                    <Button
+                        Margin="10,0,0,0"
+                        Command="{Binding NavigateToDeveloperViewCommand}"
+                        Content="Данные о разработчике"
+                        Style="{StaticResource RoundButton}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="40,20,20,30">
+                    <ContentControl Content="{Binding Path=Navigation.CurrentView}" />
+                </Grid>
+
+                <Grid Grid.Column="1" Margin="20,20,20,30">
+                    <ContentControl Content="{Binding Path=Navigation.AuthView}" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
